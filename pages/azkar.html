@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الأذكار الإسلامية</title>
+    
+    <!-- Bootstrap RTL CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts - Arabic -->
+    <link href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Amiri:wght@400;700&family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link href="../css/styles.css" rel="stylesheet">
+
+    <!-- إضافة ملف التأثيرات -->
+    <link href="../css/effects.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-islamic">
+        <div class="container">
+            <a class="navbar-brand" href="../index.html">
+                <i class="fas fa-mosque me-2"></i>
+                القرآن الكريم والأذكار
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../index.html">
+                            <i class="fas fa-home me-1"></i>الرئيسية
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="quran-pages.html">
+                            <i class="fas fa-book-open me-1"></i>المصحف
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="surahs.html">
+                            <i class="fas fa-list me-1"></i>السور
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="audio.html">
+                            <i class="fas fa-headphones me-1"></i>الاستماع
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="azkar.html">
+                            <i class="fas fa-pray me-1"></i>الأذكار
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container my-5">
+        <div class="text-center mb-5">
+            <h1 class="section-title">الأذكار الإسلامية</h1>
+            <p class="section-subtitle">أذكار الصباح والمساء وأذكار متنوعة لتقوية صلتك بالله</p>
+        </div>
+
+        <!-- Azkar Navigation -->
+        <div class="row justify-content-center mb-5">
+            <div class="col-lg-8">
+                <div class="d-flex justify-content-center flex-wrap gap-2">
+                    <button class="btn btn-islamic active" onclick="showAzkar('morning')">
+                        <i class="fas fa-sun me-1"></i>أذكار الصباح
+                    </button>
+                    <button class="btn btn-outline-islamic" onclick="showAzkar('evening')">
+                        <i class="fas fa-moon me-1"></i>أذكار المساء
+                    </button>
+                    <button class="btn btn-outline-islamic" onclick="showAzkar('sleep')">
+                        <i class="fas fa-bed me-1"></i>أذكار النوم
+                    </button>
+                    <button class="btn btn-outline-islamic" onclick="showAzkar('prayer')">
+                        <i class="fas fa-pray me-1"></i>أذكار الصلاة
+                    </button>
+                    <button class="btn btn-outline-islamic" onclick="showAzkar('general')">
+                        <i class="fas fa-heart me-1"></i>أذكار عامة
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Azkar Content -->
+        <div id="azkarContent">
+            <!-- Morning Azkar -->
+            <div id="morning" class="azkar-section">
+                <div class="azkar-card">
+                    <h2 class="azkar-title">
+                        <i class="fas fa-sun text-warning me-2"></i>
+                        أذكار الصباح
+                    </h2>
+                    <p class="text-center text-muted mb-4">تُقال من بعد صلاة الفجر إلى طلوع الشمس</p>
+                    
+                    <div class="zikr-item">
+                        <div class="zikr-text">
+                            أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ
+                            اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَنْ ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَيْءٍ مِنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ وَلَا يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ
+                        </div>
+                        <div class="zikr-count">آية الكرسي - مرة واحدة</div>
+                    </div>
+
+                    <div class="zikr-item">
+                        <div class="zikr-text">
+                            بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+                            قُلْ هُوَ اللَّهُ أَحَدٌ * اللَّهُ الصَّمَدُ * لَمْ يَلِدْ وَلَمْ يُولَدْ * وَلَمْ يَكُنْ لَهُ كُفُوًا أَحَدٌ
+                        </div>
+                        <div class="zikr-count">سورة الإخلاص - ثلاث مرات</div>
+                    </div>
+
+                    <div class="zikr-item">
+                        <div class="zikr-text">
+                            بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+                            قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ * مِنْ شَرِّ مَا خَلَقَ * وَمِنْ شَرِّ غَاسِقٍ إِذَا وَقَبَ * وَمِنْ شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ * وَمِنْ شَرِّ حَاسِدٍ إِذَا حَسَدَ
+                        </div>
+                        <div class="zikr-count">سورة الفلق - ثلاث مرات</div>
+                    </div>
+
+                    <div class="zikr-item">
+                        <div class="zikr-text">
+                            بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+                            قُلْ أَعُوذُ بِرَبِّ النَّاسِ * مَلِكِ النَّاسِ * إِلَٰهِ النَّاسِ * مِنْ شَرِّ الْوَسْوَاسِ الْخَنَّاسِ * الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ * مِنَ الْجِنَّةِ وَالنَّاسِ
+                        </div>
+                        <div class="zikr-count">سورة الناس - ثلاث مرات</div>
+                    </div>
+
+                    <div class="zikr-item">
+                        <div class="zikr-text">
+                            أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لَا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ، رَبِّ أَسْأَلُكَ خَيْرَ مَا فِي هَٰذَا الْيَوْمِ وَخَيْرَ مَا بَعْدَهُ، وَأَعُوذُ بِكَ مِنْ شَرِّ مَا فِي هَٰذَا الْيَوْمِ وَشَرِّ مَا بَعْدَهُ، رَبِّ أَعُوذُ بِكَ مِنَ الْكَسَلِ وَسُوءِ الْكِبَرِ، رَبِّ أَعُوذُ بِكَ مِنْ عَذَابٍ فِي النَّارِ وَعَذَابٍ فِي الْقَبْرِ
+                        </div>
+                        <div class="zikr-count">مرة واحدة</div>
+                    </div>
+
+                    <div class="zikr-item">
+                        <div class="zikr-text">
+                            اللَّهُمَّ بِكَ أَصْبَحْنَا، وَبِكَ أَمْسَيْنَا، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ، وَإِلَيْكَ النُّشُورُ
+                        </div>
+                        <div class="zikr-count">مرة واحدة</div>
+                    </div>
+
+                    <div class="zikr-item">
+                        <div class="zikr-text">
+                            سُبْحَانَ اللَّهِ وَبِحَمْدِهِ
+                        </div>
+                        <div class="zikr-count">مائة مرة</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Evening Azkar -->
+            <div id="evening" class="azkar-section" style="display: none;">
+                <div class="azkar-card">
+                    <h2 class="azkar-title">
+                        <i class="fas fa-moon text-primary me-2"></i>
+                        أذكار المساء
+                    </h2>
+                    <p class="text-center text-muted mb-4">تُقال من بعد صلاة العصر إلى المغرب</p>
+                    
+                    <div class="zikr-item">
+                        <div class="zikr-text">
+                            أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ
+                            اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَنْ ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَيْءٍ مِنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ وَلَا يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ
+                        </div>
+                        <div class="zikr-count">آية الكرسي - مرة واحدة</div>
+                    </div>
+
+                    <div class="zikr-item">
+                        <div class="zikr-text">
+                            أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لَا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ، رَبِّ أَسْأَلُكَ خَيْرَ مَا فِي هَٰذِهِ اللَّيْلَةِ وَخَيْرَ مَا بَعْدَهَا، وَأَعُوذُ بِكَ مِنْ شَرِّ مَا فِي هَٰذِهِ اللَّيْلَةِ وَشَرِّ مَا بَعْدَهَا، رَبِّ أَعُوذُ بِكَ مِنَ الْكَسَلِ وَسُوءِ الْكِبَرِ، رَبِّ أَعُوذُ بِكَ مِنْ عَذَابٍ فِي النَّارِ وَعَذَابٍ فِي الْقَبْرِ
+                        </div>
+                        <div class="zikr-count">مرة واحدة</div>
+                    </div>
+
+                    <div class="zikr-item">
+                        <div class="zikr-text">
+                            اللَّهُمَّ بِكَ أَمْسَيْنَا، وَبِكَ أَصْبَحْنَا، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ، وَإِلَيْكَ الْمَصِيرُ
+                        </div>
+                        <div class="zikr-count">مرة واحدة</div>
+                    </div>
+
+                    <div class="zikr-item">
+                        <div class="zikr-text">
+                            اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَٰهَ إِلَّا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَىٰ عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ، وَأَبُوءُ بِذَنْبِي فَاغْفِرْ لِي فَإِنَّهُ لَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ
+                        </div>
+                        <div class="zikr-count">سيد الاستغفار - مرة واحدة</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sleep Azkar -->
+            <div id="sleep" class="azkar-section" style="display: none;">
+                <div class="azkar-card">
+                    <h2 class="azkar-title">
+                        <i class="fas fa-bed text-info me-2"></i>
+                        أذكار النوم
+                    </h2>
+                    <p class="text-center text-muted mb-4">تُقال عند النوم</p>
+                    
+                    <div class="zikr-item">
+                        <div class="zikr-text">
+                            بِاسْمِكَ رَبِّي وَضَعْتُ جَنْبِي، وَبِكَ أَرْفَعُهُ، فَإِنْ أَمْسَكْتَ نَفْسِي فَارْحَمْهَا، وَإِنْ أَرْسَلْتَهَا فَاحْفَظْهَا بِمَا تَحْفَظُ بِهِ عِبَادَكَ الصَّالِحِينَ
+                        </div>
+                        <div class="zikr-count">مرة واحدة</div>
+                    </div>
+
+                    <div class="zikr-item">
+                        <div class="zikr-text">
+                            اللَّهُمَّ قِنِي عَذَابَكَ يَوْمَ تَبْعَثُ عِبَادَكَ
+                        </div>
+                        <div class="zikr-count">ثلاث مرات</div>
+                    </div>
+
+                    <div class="zikr-item">
+                        <div class="zikr-text">
+                            سُبْحَانَ اللَّهِ
+                        </div>
+                        <div class="zikr-count">ثلاث وثلاثون مرة</div>
+                    </div>
+
+                    <div class="zikr-item">
+                        <div class="zikr-text">
+                            الْحَمْدُ لِلَّهِ
+                        </div>
+                        <div class="zikr-count">ثلاث وثلاثون مرة</div>
+                    </div>
+
+                    <div class="zikr-item">
+                        <div class="zikr-text">
+                            اللَّهُ أَكْبَرُ
+                        </div>
+                        <div class="zikr-count">أربع وثلاثون مرة</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Prayer Azkar -->
+            <div id="prayer" class="azkar-section" style="display: none;">
+                <div class="azkar-card">
+                    <h2 class="azkar-title">
+                        <i class="fas fa-pray text-success me-2"></i>
+                        أذكار بعد الصلاة
+                    </h2>
+                    <p class="text-center text-muted mb-4">تُقال بعد كل صلاة</p>
+                    
+                    <div class="zikr-item">
+                        <div class="zikr-text">
+                            أَسْتَغْفِرُ اللَّهَ
+                        </div>
+                        <div class="zikr-count">ثلاث مرات</div>
+                    </div>
+
+                    <div class="zikr-item">
+                        <div class="zikr-text">
+                            اللَّهُمَّ أَنْتَ السَّلَامُ وَمِنْكَ السَّلَامُ، تَبَارَكْتَ يَا ذَا الْجَلَالِ وَالْإِكْرَامِ
+                        </div>
+                        <div class="zikr-count">مرة واحدة</div>
+                    </div>
+
+                    <div class="zikr-item">
+                        <div class="zikr-text">
+                            لَا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ، اللَّهُمَّ لَا مَانِعَ لِمَا أَعْطَيْتَ، وَلَا مُعْطِيَ لِمَا مَنَعْتَ، وَلَا يَنْفَعُ ذَا الْجَدِّ مِنْكَ الْجَدُّ
+                        </div>
+                        <div class="zikr-count">مرة واحدة</div>
+                    </div>
+
+                    <div class="zikr-item">
+                        <div class="zikr-text">
+                            سُبْحَانَ اللَّهِ
+                        </div>
+                        <div class="zikr-count">ثلاث وثلاثون مرة</div>
+                    </div>
+
+                    <div class="zikr-item">
+                        <div class="zikr-text">
+                            الْحَمْدُ لِلَّهِ
+                        </div>
+                        <div class="zikr-count">ثلاث وثلاثون مرة</div>
+                    </div>
+
+                    <div class="zikr-item">
+                        <div class="zikr-text">
+                            اللَّهُ أَكْبَرُ
+                        </div>
+                        <div class="zikr-count">أربع وثلاثون مرة</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- General Azkar -->
+            <div id="general" class="azkar-section" style="display: none;">
+                <div class="azkar-card">
+                    <h2 class="azkar-title">
+                        <i class="fas fa-heart text-danger me-2"></i>
+                        أذكار عامة
+                    </h2>
+                    <p class="text-center text-muted mb-4">أذكار متنوعة للذكر والتسبيح</p>
+                    
+                    <div class="zikr-item">
+                        <div class="zikr-text">
+                            لَا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ
+                        </div>
+                        <div class="zikr-count">مائة مرة في اليوم</div>
+                    </div>
+
+                    <div class="zikr-item">
+                        <div class="zikr-text">
+                            سُبْحَانَ اللَّهِ وَبِحَمْدِهِ، سُبْحَانَ اللَّهِ الْعَظِيمِ
+                        </div>
+                        <div class="zikr-count">حسب الاستطاعة</div>
+                    </div>
+
+                    <div class="zikr-item">
+                        <div class="zikr-text">
+                            لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ
+                        </div>
+                        <div class="zikr-count">حسب الاستطاعة</div>
+                    </div>
+
+                    <div class="zikr-item">
+                        <div class="zikr-text">
+                            حَسْبِيَ اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ عَلَيْهِ تَوَكَّلْتُ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ
+                        </div>
+                        <div class="zikr-count">سبع مرات</div>
+                    </div>
+
+                    <div class="zikr-item">
+                        <div class="zikr-text">
+                            رَضِيتُ بِاللَّهِ رَبًّا، وَبِالْإِسْلَامِ دِينًا، وَبِمُحَمَّدٍ رَسُولًا
+                        </div>
+                        <div class="zikr-count">ثلاث مرات</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer bg-islamic text-white py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>موقع القرآن الكريم والأذكار</h5>
+                    <p>موقع إسلامي شامل يهدف إلى تسهيل الوصول للقرآن الكريم والأذكار الإسلامية</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p>&copy; 2024 جميع الحقوق محفوظة</p>
+                    <p class="small">الأذكار مأخوذة من الكتاب والسنة الصحيحة</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- إضافة ملف التأثيرات JavaScript -->
+    <script src="../js/effects.js"></script>
+
+    <!-- Custom JavaScript -->
+    <script>
+        // Show specific azkar section
+        function showAzkar(type) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.azkar-section');
+            sections.forEach(section => {
+                section.style.display = 'none';
+            });
+
+            // Show selected section
+            document.getElementById(type).style.display = 'block';
+
+            // Update button states
+            const buttons = document.querySelectorAll('.btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('btn-islamic', 'active');
+                btn.classList.add('btn-outline-islamic');
+            });
+
+            // Activate clicked button
+            event.target.classList.remove('btn-outline-islamic');
+            event.target.classList.add('btn-islamic', 'active');
+
+            // Scroll to content
+            document.getElementById('azkarContent').scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if there's a hash in URL
+            const hash = window.location.hash.substring(1);
+            if (hash && ['morning', 'evening', 'sleep', 'prayer', 'general'].includes(hash)) {
+                showAzkar(hash);
+            }
+        });
+
+        // Add click counters for zikr items
+        document.addEventListener('DOMContentLoaded', function() {
+            const zikriItems = document.querySelectorAll('.zikr-item');
+            
+            zikriItems.forEach(item => {
+                let clickCount = 0;
+                const countElement = item.querySelector('.zikr-count');
+                const originalText = countElement.textContent;
+                
+                item.addEventListener('click', function() {
+                    clickCount++;
+                    item.style.backgroundColor = '#e8f5e8';
+                    
+                    // Show click count
+                    const clickCounter = item.querySelector('.click-counter') || document.createElement('div');
+                    clickCounter.className = 'click-counter text-success fw-bold mt-2';
+                    clickCounter.textContent = `تم: ${clickCount}`;
+                    
+                    if (!item.querySelector('.click-counter')) {
+                        item.appendChild(clickCounter);
+                    }
+                    
+                    // Reset after 3 seconds
+                    setTimeout(() => {
+                        item.style.backgroundColor = '';
+                    }, 300);
+                });
+                
+                // Double click to reset
+                item.addEventListener('dblclick', function() {
+                    clickCount = 0;
+                    const clickCounter = item.querySelector('.click-counter');
+                    if (clickCounter) {
+                        clickCounter.remove();
+                    }
+                    item.style.backgroundColor = '';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

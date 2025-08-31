@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>السورة - القرآن الكريم</title>
+    <!-- Bootstrap RTL CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+    <!-- Google Fonts - Arabic -->
+    <link href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Amiri:wght@400;700&family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="../css/styles.css" rel="stylesheet">
+    <link href="../css/effects.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-islamic">
+        <div class="container">
+            <a class="navbar-brand" href="../index.html">
+                <i class="fas fa-mosque me-2"></i>
+                القرآن الكريم والأذكار
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../index.html">
+                            <i class="fas fa-home me-1"></i>الرئيسية
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="quran-pages.html">
+                            <i class="fas fa-book-open me-1"></i>المصحف
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="surahs.html">
+                            <i class="fas fa-list me-1"></i>السور
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="audio.html">
+                            <i class="fas fa-headphones me-1"></i>الاستماع
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="azkar.html">
+                            <i class="fas fa-pray me-1"></i>الأذكار
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-5">
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p>جاري تحميل السورة...</p>
+        </div>
+
+        <div id="surahContent" style="display: none;">
+            <div class="quran-page">
+                <div class="page-header">
+                    <h1 id="surahName" class="section-title"></h1>
+                    <div id="surahInfo" class="mb-3"></div>
+                    
+                    <div class="audio-player">
+                        <h5>استمع للسورة كاملة</h5>
+                        <div class="audio-controls">
+                            <button class="play-btn" id="playBtn" onclick="toggleAudio()">
+                                <i class="fas fa-play"></i>
+                            </button>
+                            <select class="form-select" id="reciterSelect" style="max-width: 200px;">
+                                <option value="ar.alafasy">مشاري العفاسي</option>
+                                <option value="ar.abdurrahmaansudais">عبد الرحمن السديس</option>
+                                <option value="ar.saoodshuraym">سعود الشريم</option>
+                                <option value="ar.mahermuaiqly">ماهر المعيقلي</option>
+                            </select>
+                        </div>
+                        <audio id="audioElement" controls style="width: 100%; margin-top: 1rem;"></audio>
+                    </div>
+                </div>
+
+                <div id="bismillah" class="text-center mb-4" style="display: none;">
+                    <div class="quran-text" style="font-size: 2rem; color: var(--islamic-primary);">
+                        بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+                    </div>
+                </div>
+
+                <div id="ayahsList">
+                     Ayahs will be loaded here 
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-between mt-4">
+                <button id="prevSurah" class="btn btn-islamic" onclick="navigateSurah(-1)">
+                    <i class="fas fa-chevron-right me-1"></i>السورة السابقة
+                </button>
+                <a href="surahs.html" class="btn btn-outline-islamic">
+                    <i class="fas fa-list me-1"></i>قائمة السور
+                </a>
+                <button id="nextSurah" class="btn btn-islamic" onclick="navigateSurah(1)">
+                    السورة التالية<i class="fas fa-chevron-left ms-1"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer bg-islamic text-white py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>موقع القرآن الكريم والأذكار</h5>
+                    <p>موقع إسلامي شامل يهدف إلى تسهيل الوصول للقرآن الكريم والأذكار الإسلامية</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p>&copy; 2024 جميع الحقوق محفوظة</p>
+                    <p class="small">البيانات مقدمة من AlQuran Cloud API</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/effects.js"></script>
+
+    <!-- Custom JavaScript -->
+    <script>
+        let currentSurah = 1;
+        let currentAudio = null;
+        let isPlaying = false;
+
+        // Load surah on startup
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            currentSurah = parseInt(urlParams.get('surah')) || 1;
+            loadSurah(currentSurah);
+        });
+
+        // Load surah content
+        async function loadSurah(surahNumber) {
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('surahContent').style.display = 'none';
+
+            try {
+                const response = await fetch(`http://api.alquran.cloud/v1/surah/${surahNumber}/quran-uthmani`);
+                const data = await response.json();
+
+                if (data.code === 200) {
+                    displaySurah(data.data);
+                    updateNavigation(surahNumber);
+                } else {
+                    throw new Error('فشل في تحميل السورة');
+                }
+            } catch (error) {
+                console.error('Error loading surah:', error);
+                document.getElementById('surahContent').innerHTML = 
+                    '<div class="alert alert-danger">حدث خطأ في تحميل السورة. يرجى المحاولة مرة أخرى.</div>';
+            } finally {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('surahContent').style.display = 'block';
+            }
+        }
+
+        // Display surah content
+        function displaySurah(surahData) {
+            // Update surah info
+            document.getElementById('surahName').textContent = surahData.name;
+            document.title = `${surahData.name} - القرآن الكريم`;
+            
+            const revelationType = surahData.revelationType === 'Meccan' ? 'مكية' : 'مدنية';
+            document.getElementById('surahInfo').innerHTML = `
+                <div class="row text-center">
+                    <div class="col-md-3">
+                        <strong>رقم السورة:</strong> ${surahData.number}
+                    </div>
+                    <div class="col-md-3">
+                        <strong>عدد الآيات:</strong> ${surahData.numberOfAyahs}
+                    </div>
+                    <div class="col-md-3">
+                        <strong>النزول:</strong> ${revelationType}
+                    </div>
+                    <div class="col-md-3">
+                        <strong>الاسم الإنجليزي:</strong> ${surahData.englishName}
+                    </div>
+                </div>
+            `;
+
+            // Show Bismillah (except for Surah At-Tawbah)
+            const bismillahDiv = document.getElementById('bismillah');
+            if (surahData.number !== 9 && surahData.number !== 1) {
+                bismillahDiv.style.display = 'block';
+            } else {
+                bismillahDiv.style.display = 'none';
+            }
+
+            // Display ayahs
+            const ayahsList = document.getElementById('ayahsList');
+            let content = '';
+
+            surahData.ayahs.forEach((ayah, index) => {
+                content += `
+                    <div class="ayah-container mb-4 p-3" data-ayah="${ayah.number}" style="background: #f8f9fa; border-radius: 10px; border-right: 4px solid var(--islamic-primary);">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <span class="ayah-number-badge badge bg-islamic">${ayah.numberInSurah}</span>
+                            <button class="btn btn-sm btn-outline-islamic" onclick="playAyah(${ayah.number})">
+                                <i class="fas fa-play"></i> استمع
+                            </button>
+                        </div>
+                        <div class="quran-text">${ayah.text}</div>
+                    </div>
+                `;
+            });
+
+            ayahsList.innerHTML = content;
+
+            // Setup audio for full surah
+            setupSurahAudio(surahData.number);
+        }
+
+        // Setup surah audio
+        function setupSurahAudio(surahNumber) {
+            const audioElement = document.getElementById('audioElement');
+            const reciterSelect = document.getElementById('reciterSelect');
+            
+            function updateAudioSource() {
+                const reciter = reciterSelect.value;
+                const audioUrl = `https://cdn.islamic.network/quran/audio-surah/128/${reciter}/${surahNumber}.mp3`;
+                audioElement.src = audioUrl;
+            }
+
+            updateAudioSource();
+            reciterSelect.addEventListener('change', updateAudioSource);
+        }
+
+        // Toggle audio playback
+        function toggleAudio() {
+            const audioElement = document.getElementById('audioElement');
+            const playBtn = document.getElementById('playBtn');
+
+            if (!isPlaying) {
+                audioElement.play();
+                playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                isPlaying = true;
+            } else {
+                audioElement.pause();
+                playBtn.innerHTML = '<i class="fas fa-play"></i>';
+                isPlaying = false;
+            }
+
+            audioElement.onended = () => {
+                playBtn.innerHTML = '<i class="fas fa-play"></i>';
+                isPlaying = false;
+            };
+        }
+
+        // Play individual ayah
+        function playAyah(ayahNumber) {
+            const reciter = document.getElementById('reciterSelect').value;
+            const audioUrl = `https://cdn.islamic.network/quran/audio/128/${reciter}/${ayahNumber}.mp3`;
+            
+            if (currentAudio) {
+                currentAudio.pause();
+            }
+
+            currentAudio = new Audio(audioUrl);
+            currentAudio.play().catch(error => {
+                console.error('Error playing ayah audio:', error);
+                alert('حدث خطأ في تشغيل الصوت');
+            });
+        }
+
+        // Update navigation buttons
+        function updateNavigation(surahNumber) {
+            const prevBtn = document.getElementById('prevSurah');
+            const nextBtn = document.getElementById('nextSurah');
+
+            prevBtn.disabled = surahNumber <= 1;
+            nextBtn.disabled = surahNumber >= 114;
+
+            if (surahNumber <= 1) {
+                prevBtn.style.visibility = 'hidden';
+            } else {
+                prevBtn.style.visibility = 'visible';
+            }
+
+            if (surahNumber >= 114) {
+                nextBtn.style.visibility = 'hidden';
+            } else {
+                nextBtn.style.visibility = 'visible';
+            }
+        }
+
+        // Navigate to previous/next surah
+        function navigateSurah(direction) {
+            const newSurah = currentSurah + direction;
+            if (newSurah >= 1 && newSurah <= 114) {
+                currentSurah = newSurah;
+                window.history.pushState({}, '', `surah.html?surah=${newSurah}`);
+                loadSurah(newSurah);
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight' && currentSurah > 1) {
+                navigateSurah(-1);
+            } else if (e.key === 'ArrowLeft' && currentSurah < 114) {
+                navigateSurah(1);
+            } else if (e.key === ' ') {
+                e.preventDefault();
+                toggleAudio();
+            }
+        });
+    </script>
+</body>
+</html>

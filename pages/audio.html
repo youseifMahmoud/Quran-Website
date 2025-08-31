@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الاستماع للقرآن الكريم</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Amiri:wght@400;700&family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <link href="../css/styles.css" rel="stylesheet">
+
+    <link href="../css/effects.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-islamic">
+        <div class="container">
+            <a class="navbar-brand" href="../index.html">
+                <i class="fas fa-mosque me-2"></i>
+                القرآن الكريم والأذكار
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../index.html">
+                            <i class="fas fa-home me-1"></i>الرئيسية
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="quran-pages.html">
+                            <i class="fas fa-book-open me-1"></i>المصحف
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="surahs.html">
+                            <i class="fas fa-list me-1"></i>السور
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="audio.html">
+                            <i class="fas fa-headphones me-1"></i>الاستماع
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="azkar.html">
+                            <i class="fas fa-pray me-1"></i>الأذكار
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-5">
+        <div class="text-center mb-5">
+            <h1 class="section-title">الاستماع للقرآن الكريم</h1>
+            <p class="section-subtitle">استمع للقرآن الكريم بأصوات أشهر القراء</p>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="audio-player mb-5">
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <label class="form-label">اختر القارئ:</label>
+                            <select class="form-select" id="reciterSelect">
+                                <option value="ar.alafasy">مشاري راشد العفاسي</option>
+                                <option value="ar.abdurrahmaansudais">عبد الرحمن السديس</option>
+                                <option value="ar.saoodshuraym">سعود الشريم</option>
+                                <option value="ar.mahermuaiqly">ماهر المعيقلي</option>
+                                <option value="ar.abdulbasitmurattal">عبد الباسط عبد الصمد</option>
+                                <option value="ar.minshawi">محمد صديق المنشاوي</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" id="selectionLabel">اختر السورة:</label>
+                            <select class="form-select" id="contentSelect">
+                                </select>
+                        </div>
+                    </div>
+
+                    <div class="text-center mb-4">
+                        <h4 id="currentTitle">اختر السورة للبدء</h4>
+                        <p id="currentInfo" class="text-muted"></p>
+                    </div>
+
+                    <div class="audio-controls mb-4">
+                        <button class="btn btn-outline-islamic" id="prevBtn" onclick="previousTrack()">
+                            <i class="fas fa-step-backward"></i>
+                        </button>
+                        <button class="play-btn" id="playBtn" onclick="togglePlay()">
+                            <i class="fas fa-play"></i>
+                        </button>
+                        <button class="btn btn-outline-islamic" id="nextBtn" onclick="nextTrack()">
+                            <i class="fas fa-step-forward"></i>
+                        </button>
+                    </div>
+
+                    <audio id="audioPlayer" controls style="width: 100%;">
+                        متصفحك لا يدعم تشغيل الصوت
+                    </audio>
+
+                    <div class="mt-3 text-center">
+                        <small id="progressInfo" class="text-muted"></small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <h3 class="section-title text-center mb-4">وصول سريع</h3>
+                <div class="row g-3">
+                    <div class="col-lg-3 col-md-6">
+                        <div class="quick-card">
+                            <i class="fas fa-star"></i>
+                            <h5>سورة الفاتحة</h5>
+                            <button class="btn btn-sm btn-islamic" onclick="playQuick(1)">استمع الآن</button>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="quick-card">
+                            <i class="fas fa-heart"></i>
+                            <h5>سورة البقرة</h5>
+                            <button class="btn btn-sm btn-islamic" onclick="playQuick(2)">استمع الآن</button>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="quick-card">
+                            <i class="fas fa-moon"></i>
+                            <h5>سورة يس</h5>
+                            <button class="btn btn-sm btn-islamic" onclick="playQuick(36)">استمع الآن</button>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="quick-card">
+                            <i class="fas fa-sun"></i>
+                            <h5>سورة الملك</h5>
+                            <button class="btn btn-sm btn-islamic" onclick="playQuick(67)">استمع الآن</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer bg-islamic text-white py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>موقع القرآن الكريم والأذكار</h5>
+                    <p>موقع إسلامي شامل يهدف إلى تسهيل الوصول للقرآن الكريم والأذكار الإسلامية</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p>&copy; 2024 جميع الحقوق محفوظة</p>
+                    <p class="small">البيانات مقدمة من AlQuran Cloud API</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script src="../js/effects.js"></script>
+
+    <script>
+        let isPlaying = false;
+        let currentSelection = 1;
+        let allSurahs = [];
+
+        // Surah names in Arabic
+        const surahNames = {
+            1: "الفاتحة", 2: "البقرة", 3: "آل عمران", 4: "النساء", 5: "المائدة",
+            6: "الأنعام", 7: "الأعراف", 8: "الأنفال", 9: "التوبة", 10: "يونس",
+            11: "هود", 12: "يوسف", 13: "الرعد", 14: "إبراهيم", 15: "الحجر",
+            16: "النحل", 17: "الإسراء", 18: "الكهف", 19: "مريم", 20: "طه",
+            21: "الأنبياء", 22: "الحج", 23: "المؤمنون", 24: "النور", 25: "الفرقان",
+            26: "الشعراء", 27: "النمل", 28: "القصص", 29: "العنكبوت", 30: "الروم",
+            31: "لقمان", 32: "السجدة", 33: "الأحزاب", 34: "سبأ", 35: "فاطر",
+            36: "يس", 37: "الصافات", 38: "ص", 39: "الزمر", 40: "غافر",
+            41: "فصلت", 42: "الشورى", 43: "الزخرف", 44: "الدخان", 45: "الجاثية",
+            46: "الأحقاف", 47: "محمد", 48: "الفتح", 49: "الحجرات", 50: "ق",
+            51: "الذاريات", 52: "الطور", 53: "النجم", 54: "القمر", 55: "الرحمن",
+            56: "الواقعة", 57: "الحديد", 58: "المجادلة", 59: "الحشر", 60: "الممتحنة",
+            61: "الصف", 62: "الجمعة", 63: "المنافقون", 64: "التغابن", 65: "الطلاق",
+            66: "التحريم", 67: "الملك", 68: "القلم", 69: "الحاقة", 70: "المعارج",
+            71: "نوح", 72: "الجن", 73: "المزمل", 74: "المدثر", 75: "القيامة",
+            76: "الإنسان", 77: "المرسلات", 78: "النبأ", 79: "النازعات", 80: "عبس",
+            81: "التكوير", 82: "الانفطار", 83: "المطففين", 84: "الانشقاق", 85: "البروج",
+            86: "الطارق", 87: "الأعلى", 88: "الغاشية", 89: "الفجر", 90: "البلد",
+            91: "الشمس", 92: "الليل", 93: "الضحى", 94: "الشرح", 95: "التين",
+            96: "العلق", 97: "القدر", 98: "البينة", 99: "الزلزلة", 100: "العاديات",
+            101: "القارعة", 102: "التكاثر", 103: "العصر", 104: "الهمزة", 105: "الفيل",
+            106: "قريش", 107: "الماعون", 108: "الكوثر", 109: "الكافرون", 110: "النصر",
+            111: "المسد", 112: "الإخلاص", 113: "الفلق", 114: "الناس"
+        };
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            setupEventListeners();
+            loadSurahs();
+            updateContentOptions();
+        });
+
+        // Setup event listeners
+        function setupEventListeners() {
+            document.getElementById('reciterSelect').addEventListener('change', updateAudioSource);
+            document.getElementById('contentSelect').addEventListener('change', updateSelection);
+            
+            const audioPlayer = document.getElementById('audioPlayer');
+            audioPlayer.addEventListener('loadstart', () => updateProgressInfo('جاري التحميل...'));
+            audioPlayer.addEventListener('canplay', () => updateProgressInfo('جاهز للتشغيل'));
+            audioPlayer.addEventListener('play', () => {
+                isPlaying = true;
+                document.getElementById('playBtn').innerHTML = '<i class="fas fa-pause"></i>';
+            });
+            audioPlayer.addEventListener('pause', () => {
+                isPlaying = false;
+                document.getElementById('playBtn').innerHTML = '<i class="fas fa-play"></i>';
+            });
+            audioPlayer.addEventListener('ended', () => {
+                nextTrack();
+            });
+            audioPlayer.addEventListener('timeupdate', updateProgress);
+        }
+
+        // Load surahs data
+        async function loadSurahs() {
+            try {
+                const response = await fetch('http://api.alquran.cloud/v1/surah');
+                const data = await response.json();
+                if (data.code === 200) {
+                    allSurahs = data.data;
+                }
+            } catch (error) {
+                console.error('Error loading surahs:', error);
+            }
+        }
+
+        // Update content options for surahs
+        function updateContentOptions() {
+            const contentSelect = document.getElementById('contentSelect');
+            contentSelect.innerHTML = '';
+            
+            for (let i = 1; i <= 114; i++) {
+                const option = document.createElement('option');
+                option.value = i;
+                option.textContent = `${i}. ${surahNames[i]}`;
+                contentSelect.appendChild(option);
+            }
+            
+            updateSelection();
+        }
+
+        // Update current selection
+        function updateSelection() {
+            currentSelection = parseInt(document.getElementById('contentSelect').value);
+            updateCurrentInfo();
+            updateAudioSource();
+        }
+
+        // Update current playing info
+        function updateCurrentInfo() {
+            const currentTitle = document.getElementById('currentTitle');
+            const currentInfo = document.getElementById('currentInfo');
+            
+            currentTitle.textContent = `سورة ${surahNames[currentSelection]}`;
+            const surah = allSurahs.find(s => s.number === currentSelection);
+            if (surah) {
+                const revelationType = surah.revelationType === 'Meccan' ? 'مكية' : 'مدنية';
+                currentInfo.textContent = `${surah.numberOfAyahs} آية - ${revelationType}`;
+            }
+        }
+
+        // Update audio source
+        function updateAudioSource() {
+            const reciter = document.getElementById('reciterSelect').value;
+            const audioPlayer = document.getElementById('audioPlayer');
+            
+            const audioUrl = `https://cdn.islamic.network/quran/audio-surah/128/${reciter}/${currentSelection}.mp3`;
+            audioPlayer.src = audioUrl;
+        }
+
+        // Toggle play/pause
+        function togglePlay() {
+            const audioPlayer = document.getElementById('audioPlayer');
+            
+            if (isPlaying) {
+                audioPlayer.pause();
+            } else {
+                audioPlayer.play().catch(error => {
+                    console.error('Error playing audio:', error);
+                    alert('حدث خطأ في تشغيل الصوت');
+                });
+            }
+        }
+
+        // Previous track
+        function previousTrack() {
+            if (currentSelection > 1) {
+                currentSelection--;
+                document.getElementById('contentSelect').value = currentSelection;
+                updateCurrentInfo();
+                updateAudioSource();
+            }
+        }
+
+        // Next track
+        function nextTrack() {
+            const maxValue = 114;
+            
+            if (currentSelection < maxValue) {
+                currentSelection++;
+                document.getElementById('contentSelect').value = currentSelection;
+                updateCurrentInfo();
+                updateAudioSource();
+                
+                // Auto-play next track
+                setTimeout(() => {
+                    document.getElementById('audioPlayer').play().catch(error => {
+                        console.error('Error auto-playing next track:', error);
+                    });
+                }, 1000);
+            }
+        }
+
+        // Quick play function
+        function playQuick(selection) {
+            currentSelection = selection;
+            document.getElementById('contentSelect').value = currentSelection;
+            updateSelection();
+            
+            setTimeout(() => {
+                document.getElementById('audioPlayer').play().catch(error => {
+                    console.error('Error playing quick selection:', error);
+                    alert('حدث خطأ في تشغيل الصوت');
+                });
+            }, 500);
+        }
+
+        // Update progress info
+        function updateProgressInfo(message) {
+            document.getElementById('progressInfo').textContent = message;
+        }
+
+        // Update progress during playback
+        function updateProgress() {
+            const audioPlayer = document.getElementById('audioPlayer');
+            if (audioPlayer.duration) {
+                const currentTime = formatTime(audioPlayer.currentTime);
+                const totalTime = formatTime(audioPlayer.duration);
+                updateProgressInfo(`${currentTime} / ${totalTime}`);
+            }
+        }
+
+        // Format time helper
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = Math.floor(seconds % 60);
+            return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,577 @@
+/* Custom CSS for Islamic Website */
+
+:root {
+  --islamic-primary: #2c5530;
+  --islamic-secondary: #4a7c59;
+  --islamic-accent: #d4af37;
+  --islamic-light: #f8f9fa;
+  --islamic-dark: #1a3a1d;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Cairo", "Amiri", sans-serif;
+  line-height: 1.6;
+  color: #333;
+  direction: rtl;
+}
+
+/* Typography */
+.quran-text {
+  font-family: "Amiri Quran", "Amiri", serif;
+  font-size: 1.5rem;
+  line-height: 2.2;
+  text-align: center;
+  color: var(--islamic-dark);
+}
+
+.section-title {
+  font-family: "Amiri", serif;
+  font-weight: 700;
+  color: var(--islamic-primary);
+  margin-bottom: 1rem;
+}
+
+.section-subtitle {
+  color: #666;
+  font-size: 1.1rem;
+}
+
+/* Navigation */
+.bg-islamic {
+  background: linear-gradient(135deg, var(--islamic-primary) 0%, var(--islamic-secondary) 100%);
+}
+
+.navbar-brand {
+  font-family: "Amiri", serif;
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+/* Hero Section */
+.hero-section {
+  background: linear-gradient(135deg, var(--islamic-primary) 0%, var(--islamic-secondary) 100%);
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="islamic-pattern" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23islamic-pattern)"/></svg>');
+  opacity: 0.3;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+}
+
+.hero-icon {
+  font-size: 15rem;
+  color: rgba(255, 255, 255, 0.1);
+  text-shadow: 0 0 50px rgba(255, 255, 255, 0.2);
+}
+
+.text-white-75 {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.min-vh-75 {
+  min-height: 75vh;
+}
+
+/* Buttons */
+.btn-islamic {
+  background-color: var(--islamic-primary);
+  border-color: var(--islamic-primary);
+  color: white;
+  font-weight: 600;
+  padding: 0.75rem 2rem;
+  border-radius: 50px;
+  transition: all 0.3s ease;
+}
+
+.btn-islamic:hover {
+  background-color: var(--islamic-secondary);
+  border-color: var(--islamic-secondary);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(44, 85, 48, 0.3);
+}
+
+.btn-islamic.btn-lg {
+  background: linear-gradient(135deg, var(--islamic-primary), var(--islamic-secondary));
+  border: none;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 50px;
+  box-shadow: 0 4px 15px rgba(44, 85, 48, 0.3);
+  transition: all 0.3s ease;
+}
+
+.btn-islamic.btn-lg:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(44, 85, 48, 0.4);
+}
+
+/* Feature Cards */
+.features-section {
+  padding: 5rem 0;
+}
+
+.feature-card {
+  background: white;
+  padding: 2.5rem 1.5rem;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  border-top: 4px solid var(--islamic-accent);
+}
+
+.feature-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.feature-icon {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, var(--islamic-primary), var(--islamic-secondary));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  color: white;
+  font-size: 2rem;
+}
+
+.feature-card h4 {
+  color: var(--islamic-primary);
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+/* Quick Access Cards */
+.quick-access-section {
+  background-color: #f8f9fa;
+}
+
+.quick-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.quick-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+}
+
+.quick-card i {
+  font-size: 3rem;
+  color: var(--islamic-accent);
+  margin-bottom: 1rem;
+}
+
+.quick-card h5 {
+  color: var(--islamic-primary);
+  margin-bottom: 1rem;
+}
+
+/* Page Navigation */
+.page-nav {
+  background: white;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+
+.page-nav .form-control {
+  border-radius: 25px;
+  border: 2px solid #e9ecef;
+  padding: 0.75rem 1.5rem;
+}
+
+.page-nav .form-control:focus {
+  border-color: var(--islamic-primary);
+  box-shadow: 0 0 0 0.2rem rgba(44, 85, 48, 0.25);
+}
+
+/* Quran Page Display */
+.quran-page {
+  background: white;
+  padding: 3rem 2rem;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+  border: 2px solid var(--islamic-accent);
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--islamic-accent);
+}
+
+.page-number {
+  background: var(--islamic-primary);
+  color: white;
+  padding: 0.5rem 1.5rem;
+  border-radius: 25px;
+  font-weight: 600;
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+/* Audio Player */
+.audio-player {
+  background: var(--islamic-light);
+  padding: 1.5rem;
+  border-radius: 10px;
+  margin: 1rem 0;
+  text-align: center;
+}
+
+.audio-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.play-btn {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--islamic-primary);
+  color: white;
+  border: none;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.play-btn:hover {
+  background: var(--islamic-secondary);
+  transform: scale(1.1);
+}
+
+.audio-playing-indicator {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  background: var(--islamic-primary);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 25px;
+  font-size: 0.9rem;
+  z-index: 1000;
+  animation: fade-in 0.3s ease;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Surah List */
+.surah-list {
+  list-style: none;
+  padding: 0;
+}
+
+.surah-item {
+  background: white;
+  margin-bottom: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.surah-item:hover {
+  transform: translateX(-5px);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.12);
+}
+
+.surah-link {
+  display: flex;
+  align-items: center;
+  padding: 1.5rem;
+  text-decoration: none;
+  color: inherit;
+}
+
+.surah-number {
+  width: 50px;
+  height: 50px;
+  background: var(--islamic-primary);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  margin-left: 1rem;
+}
+
+.surah-info h5 {
+  margin: 0 0 0.5rem 0;
+  color: var(--islamic-primary);
+}
+
+.surah-info p {
+  margin: 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.surah-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.surah-actions .btn {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.surah-actions .btn:hover {
+  transform: scale(1.1);
+}
+
+/* Azkar Cards */
+.azkar-section {
+  margin-bottom: 3rem;
+}
+
+.azkar-card {
+  background: white;
+  border-radius: 15px;
+  padding: 2rem;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  border-right: 5px solid var(--islamic-accent);
+}
+
+.azkar-title {
+  color: var(--islamic-primary);
+  font-family: "Amiri", serif;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.zikr-item {
+  background: var(--islamic-light);
+  padding: 1.5rem;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  border-right: 3px solid var(--islamic-primary);
+}
+
+.zikr-text {
+  font-family: "Amiri", serif;
+  font-size: 1.2rem;
+  line-height: 1.8;
+  color: var(--islamic-dark);
+  margin-bottom: 0.5rem;
+}
+
+.zikr-count {
+  color: var(--islamic-secondary);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+/* Footer */
+.footer {
+  background: var(--islamic-dark) !important;
+}
+
+/* Loading Spinner */
+.loading {
+  text-align: center;
+  padding: 3rem;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid var(--islamic-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 1rem;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Ayah Interactive Styles */
+.ayah-container {
+  padding: 1rem;
+  margin: 0.5rem 0;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+}
+
+.ayah-container:hover {
+  background-color: rgba(44, 85, 48, 0.05);
+  transform: translateX(-5px);
+  box-shadow: 0 2px 10px rgba(44, 85, 48, 0.1);
+}
+
+.ayah-container.ayah-playing {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(44, 85, 48, 0.1));
+  border-right: 4px solid var(--islamic-accent);
+  animation: ayah-pulse 2s infinite;
+}
+
+@keyframes ayah-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 5px rgba(212, 175, 55, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.6);
+  }
+}
+
+.ayah-text {
+  font-family: "Amiri Quran", "Amiri", serif;
+  font-size: 1.4rem;
+  line-height: 2;
+  color: var(--islamic-dark);
+  display: inline-block;
+  margin-left: 0.5rem;
+}
+
+.ayah-number {
+  color: var(--islamic-accent);
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-right: 0.5rem;
+}
+
+/* Search Enhancement for Arabic without diacritics */
+.search-highlight {
+  background-color: rgba(212, 175, 55, 0.3);
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+
+/* Print Styles */
+@media print {
+  .navbar,
+  .footer,
+  .audio-player,
+  .page-nav {
+    display: none !important;
+  }
+
+  .quran-page {
+    box-shadow: none;
+    border: 1px solid #ddd;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .hero-section {
+    text-align: center;
+    padding: 2rem 0;
+  }
+
+  .hero-icon {
+    font-size: 8rem;
+    margin-top: 2rem;
+  }
+
+  .feature-card {
+    margin-bottom: 2rem;
+  }
+
+  .quran-text {
+    font-size: 1.2rem;
+    line-height: 2;
+  }
+
+  .audio-controls {
+    flex-direction: column;
+  }
+
+  .ayah-text {
+    font-size: 1.2rem;
+    line-height: 1.8;
+  }
+
+  .ayah-container {
+    padding: 0.75rem;
+    margin: 0.25rem 0;
+  }
+
+  .btn-islamic.btn-lg {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .hero-section h1 {
+    font-size: 2rem;
+  }
+
+  .hero-section .lead {
+    font-size: 1rem;
+  }
+
+  .btn-lg {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  .quran-page {
+    padding: 1.5rem 1rem;
+  }
+}
