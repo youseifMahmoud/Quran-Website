@@ -4,13 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>السورة - القرآن الكريم</title>
-    <!-- Bootstrap RTL CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
-    <!-- Google Fonts - Arabic -->
     <link href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Amiri:wght@400;700&family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
     <link href="../css/styles.css" rel="stylesheet">
     <link href="../css/effects.css" rel="stylesheet">
 </head>
@@ -71,7 +67,7 @@
                     <div class="audio-player">
                         <h5>استمع للسورة كاملة</h5>
                         <div class="audio-controls">
-                            <button class="play-btn" id="playBtn" onclick="toggleAudio()">
+                            <button class="play-btn" id="playBtn">
                                 <i class="fas fa-play"></i>
                             </button>
                             <select class="form-select" id="reciterSelect" style="max-width: 200px;">
@@ -92,18 +88,17 @@
                 </div>
 
                 <div id="ayahsList">
-                     Ayahs will be loaded here 
-                </div>
+                    </div>
             </div>
 
             <div class="d-flex justify-content-between mt-4">
-                <button id="prevSurah" class="btn btn-islamic" onclick="navigateSurah(-1)">
+                <button id="prevSurah" class="btn btn-islamic">
                     <i class="fas fa-chevron-right me-1"></i>السورة السابقة
                 </button>
                 <a href="surahs.html" class="btn btn-outline-islamic">
                     <i class="fas fa-list me-1"></i>قائمة السور
                 </a>
-                <button id="nextSurah" class="btn btn-islamic" onclick="navigateSurah(1)">
+                <button id="nextSurah" class="btn btn-islamic">
                     السورة التالية<i class="fas fa-chevron-left ms-1"></i>
                 </button>
             </div>
@@ -128,37 +123,48 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../js/effects.js"></script>
 
-    <!-- Custom JavaScript -->
     <script>
         let currentSurah = 1;
-        let currentAudio = null;
         let isPlaying = false;
+        let audioPlayer = null;
 
-        // Load surah on startup
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', () => {
             const urlParams = new URLSearchParams(window.location.search);
             currentSurah = parseInt(urlParams.get('surah')) || 1;
             loadSurah(currentSurah);
+            setupEventListeners();
         });
 
-        // Load surah content
+        function setupEventListeners() {
+            document.getElementById('playBtn').addEventListener('click', toggleSurahAudio);
+            document.getElementById('reciterSelect').addEventListener('change', updateSurahAudioSource);
+            document.getElementById('prevSurah').addEventListener('click', () => navigateSurah(-1));
+            document.getElementById('nextSurah').addEventListener('click', () => navigateSurah(1));
+            document.addEventListener('keydown', handleKeyboardNavigation);
+        }
+
         async function loadSurah(surahNumber) {
             document.getElementById('loading').style.display = 'block';
             document.getElementById('surahContent').style.display = 'none';
 
-            try {
-                const response = await fetch(`http://api.alquran.cloud/v1/surah/${surahNumber}/quran-uthmani`);
-                const data = await response.json();
+            const apiUrl = `https://api.alquran.cloud/v1/surah/${surahNumber}/quran-uthmani`;
 
+            try {
+                const response = await fetch(apiUrl);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                
                 if (data.code === 200) {
                     displaySurah(data.data);
                     updateNavigation(surahNumber);
                 } else {
-                    throw new Error('فشل في تحميل السورة');
+                    throw new Error('Failed to load surah');
                 }
             } catch (error) {
                 console.error('Error loading surah:', error);
-                document.getElementById('surahContent').innerHTML = 
+                document.getElementById('surahContent').innerHTML =
                     '<div class="alert alert-danger">حدث خطأ في تحميل السورة. يرجى المحاولة مرة أخرى.</div>';
             } finally {
                 document.getElementById('loading').style.display = 'none';
@@ -166,9 +172,7 @@
             }
         }
 
-        // Display surah content
         function displaySurah(surahData) {
-            // Update surah info
             document.getElementById('surahName').textContent = surahData.name;
             document.title = `${surahData.name} - القرآن الكريم`;
             
@@ -190,112 +194,105 @@
                 </div>
             `;
 
-            // Show Bismillah (except for Surah At-Tawbah)
             const bismillahDiv = document.getElementById('bismillah');
-            if (surahData.number !== 9 && surahData.number !== 1) {
+            if (surahData.number !== 9) {
                 bismillahDiv.style.display = 'block';
             } else {
                 bismillahDiv.style.display = 'none';
             }
 
-            // Display ayahs
             const ayahsList = document.getElementById('ayahsList');
-            let content = '';
+            ayahsList.innerHTML = '';
+            
+            surahData.ayahs.forEach(ayah => {
+                const ayahDiv = document.createElement('div');
+                ayahDiv.className = 'ayah-container mb-4 p-3';
+                ayahDiv.dataset.ayah = ayah.number;
+                ayahDiv.style.background = '#f8f9fa';
+                ayahDiv.style.borderRadius = '10px';
+                ayahDiv.style.borderRight = '4px solid var(--islamic-primary)';
 
-            surahData.ayahs.forEach((ayah, index) => {
-                content += `
-                    <div class="ayah-container mb-4 p-3" data-ayah="${ayah.number}" style="background: #f8f9fa; border-radius: 10px; border-right: 4px solid var(--islamic-primary);">
-                        <div class="d-flex justify-content-between align-items-start mb-2">
-                            <span class="ayah-number-badge badge bg-islamic">${ayah.numberInSurah}</span>
-                            <button class="btn btn-sm btn-outline-islamic" onclick="playAyah(${ayah.number})">
-                                <i class="fas fa-play"></i> استمع
-                            </button>
-                        </div>
-                        <div class="quran-text">${ayah.text}</div>
+                ayahDiv.innerHTML = `
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <span class="ayah-number-badge badge bg-islamic">${ayah.numberInSurah}</span>
+                        <button class="btn btn-sm btn-outline-islamic" onclick="playAyah(${ayah.numberInSurah})">
+                            <i class="fas fa-play"></i> استمع
+                        </button>
                     </div>
+                    <div class="quran-text">${ayah.text}</div>
                 `;
+                ayahsList.appendChild(ayahDiv);
             });
 
-            ayahsList.innerHTML = content;
-
-            // Setup audio for full surah
-            setupSurahAudio(surahData.number);
+            updateSurahAudioSource();
         }
 
-        // Setup surah audio
-        function setupSurahAudio(surahNumber) {
-            const audioElement = document.getElementById('audioElement');
-            const reciterSelect = document.getElementById('reciterSelect');
+        function updateSurahAudioSource() {
+            const surahNumber = currentSurah;
+            const reciter = document.getElementById('reciterSelect').value;
+            const audioUrl = `https://cdn.islamic.network/quran/audio-surah/128/${reciter}/${surahNumber}.mp3`;
             
-            function updateAudioSource() {
-                const reciter = reciterSelect.value;
-                const audioUrl = `https://cdn.islamic.network/quran/audio-surah/128/${reciter}/${surahNumber}.mp3`;
-                audioElement.src = audioUrl;
-            }
-
-            updateAudioSource();
-            reciterSelect.addEventListener('change', updateAudioSource);
-        }
-
-        // Toggle audio playback
-        function toggleAudio() {
-            const audioElement = document.getElementById('audioElement');
-            const playBtn = document.getElementById('playBtn');
-
-            if (!isPlaying) {
-                audioElement.play();
-                playBtn.innerHTML = '<i class="fas fa-pause"></i>';
-                isPlaying = true;
-            } else {
-                audioElement.pause();
-                playBtn.innerHTML = '<i class="fas fa-play"></i>';
+            audioPlayer = document.getElementById('audioElement');
+            audioPlayer.src = audioUrl;
+            
+            audioPlayer.onended = () => {
                 isPlaying = false;
-            }
-
-            audioElement.onended = () => {
-                playBtn.innerHTML = '<i class="fas fa-play"></i>';
+                document.getElementById('playBtn').innerHTML = '<i class="fas fa-play"></i>';
+            };
+            audioPlayer.onerror = () => {
+                console.error('Error loading surah audio');
+                alert('حدث خطأ في تحميل السورة الصوتية. يرجى اختيار قارئ آخر.');
                 isPlaying = false;
+                document.getElementById('playBtn').innerHTML = '<i class="fas fa-play"></i>';
             };
         }
 
-        // Play individual ayah
-        function playAyah(ayahNumber) {
-            const reciter = document.getElementById('reciterSelect').value;
-            const audioUrl = `https://cdn.islamic.network/quran/audio/128/${reciter}/${ayahNumber}.mp3`;
-            
-            if (currentAudio) {
-                currentAudio.pause();
+        function toggleSurahAudio() {
+            if (!audioPlayer) {
+                updateSurahAudioSource();
             }
 
-            currentAudio = new Audio(audioUrl);
-            currentAudio.play().catch(error => {
+            if (isPlaying) {
+                audioPlayer.pause();
+                document.getElementById('playBtn').innerHTML = '<i class="fas fa-play"></i>';
+            } else {
+                audioPlayer.play().then(() => {
+                    document.getElementById('playBtn').innerHTML = '<i class="fas fa-pause"></i>';
+                }).catch(error => {
+                    console.error('Error playing audio:', error);
+                    alert('تعذر تشغيل الصوت. يرجى المحاولة مرة أخرى.');
+                    document.getElementById('playBtn').innerHTML = '<i class="fas fa-play"></i>';
+                });
+            }
+            isPlaying = !isPlaying;
+        }
+
+        function playAyah(ayahNumberInSurah) {
+            const surahNumber = currentSurah;
+            const reciter = document.getElementById('reciterSelect').value;
+            const audioUrl = `https://cdn.islamic.network/quran/audio/128/${reciter}/${surahNumber}:${ayahNumberInSurah}.mp3`;
+            
+            if (audioPlayer) {
+                audioPlayer.pause();
+                isPlaying = false;
+                document.getElementById('playBtn').innerHTML = '<i class="fas fa-play"></i>';
+            }
+
+            const newAyahAudio = new Audio(audioUrl);
+            newAyahAudio.play().catch(error => {
                 console.error('Error playing ayah audio:', error);
-                alert('حدث خطأ في تشغيل الصوت');
+                alert('حدث خطأ في تشغيل صوت الآية.');
             });
         }
 
-        // Update navigation buttons
         function updateNavigation(surahNumber) {
             const prevBtn = document.getElementById('prevSurah');
             const nextBtn = document.getElementById('nextSurah');
 
             prevBtn.disabled = surahNumber <= 1;
             nextBtn.disabled = surahNumber >= 114;
-
-            if (surahNumber <= 1) {
-                prevBtn.style.visibility = 'hidden';
-            } else {
-                prevBtn.style.visibility = 'visible';
-            }
-
-            if (surahNumber >= 114) {
-                nextBtn.style.visibility = 'hidden';
-            } else {
-                nextBtn.style.visibility = 'visible';
-            }
         }
 
-        // Navigate to previous/next surah
         function navigateSurah(direction) {
             const newSurah = currentSurah + direction;
             if (newSurah >= 1 && newSurah <= 114) {
@@ -305,17 +302,16 @@
             }
         }
 
-        // Keyboard navigation
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'ArrowRight' && currentSurah > 1) {
+        function handleKeyboardNavigation(e) {
+            if (e.key === 'ArrowRight') {
                 navigateSurah(-1);
-            } else if (e.key === 'ArrowLeft' && currentSurah < 114) {
+            } else if (e.key === 'ArrowLeft') {
                 navigateSurah(1);
             } else if (e.key === ' ') {
                 e.preventDefault();
-                toggleAudio();
+                toggleSurahAudio();
             }
-        });
+        }
     </script>
 </body>
 </html>
