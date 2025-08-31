@@ -75,6 +75,9 @@
                                 <option value="ar.abdurrahmaansudais">عبد الرحمن السديس</option>
                                 <option value="ar.saoodshuraym">سعود الشريم</option>
                                 <option value="ar.mahermuaiqly">ماهر المعيقلي</option>
+                                <option value="ar.abdulbasit">عبد الباسط عبد الصمد</option>
+                                <option value="ar.minshawi">محمد صديق المنشاوي</option>
+                                <option value="ar.husary">محمود خليل الحصري</option>
                             </select>
                         </div>
                         <audio id="audioElement" controls style="width: 100%; margin-top: 1rem;"></audio>
@@ -128,6 +131,7 @@
         let isPlaying = false;
         let audioPlayer = null;
 
+        // Load surah on startup
         document.addEventListener('DOMContentLoaded', () => {
             const urlParams = new URLSearchParams(window.location.search);
             currentSurah = parseInt(urlParams.get('surah')) || 1;
@@ -215,7 +219,7 @@
                 ayahDiv.innerHTML = `
                     <div class="d-flex justify-content-between align-items-start mb-2">
                         <span class="ayah-number-badge badge bg-islamic">${ayah.numberInSurah}</span>
-                        <button class="btn btn-sm btn-outline-islamic" onclick="playAyah(${ayah.numberInSurah})">
+                        <button class="btn btn-sm btn-outline-islamic" onclick="playAyah(${ayah.number})">
                             <i class="fas fa-play"></i> استمع
                         </button>
                     </div>
