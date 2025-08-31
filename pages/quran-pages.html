@@ -178,11 +178,11 @@
 
             try {
                 const pageResponse = await fetch(`https://api.alquran.cloud/v1/page/${pageNum}/quran-uthmani`);
-                const pageData = await pageResponse.json();
+                const data = await pageResponse.json();
 
-                if (pageData.code === 200) {
-                    currentPageAyahs = pageData.data.ayahs;
-                    displayPage(pageData.data);
+                if (data.code === 200) {
+                    currentPageAyahs = data.data.ayahs;
+                    displayPage(data.data);
                 } else {
                     throw new Error('فشل في تحميل الصفحة');
                 }
@@ -214,6 +214,7 @@
         function updatePageInfo(pageData) {
             let pageTitle = '';
             
+            // Fix: check if pageData.surahs.references exists and is not empty
             if (pageData.surahs && pageData.surahs.references && pageData.surahs.references.length > 0) {
                 const firstSurah = pageData.surahs.references[0];
                 const juzName = pageData.juzs && pageData.juzs[0] ? pageData.juzs[0].name : '';
