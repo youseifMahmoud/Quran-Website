@@ -177,7 +177,6 @@
             showLoading(true);
 
             try {
-                // Fetch page data with ayahs and other information
                 const pageResponse = await fetch(`https://api.alquran.cloud/v1/page/${pageNum}/quran-uthmani`);
                 const pageData = await pageResponse.json();
 
@@ -213,8 +212,17 @@
         }
 
         function updatePageInfo(pageData) {
-            const firstSurah = pageData.surahs.references[0];
-            const pageTitle = `${firstSurah.name} - ${firstSurah.englishName} | ${pageData.juzs[0].name} | ${pageData.hizbs[0].name}`;
+            let pageTitle = '';
+            
+            if (pageData.surahs && pageData.surahs.references && pageData.surahs.references.length > 0) {
+                const firstSurah = pageData.surahs.references[0];
+                const juzName = pageData.juzs && pageData.juzs[0] ? pageData.juzs[0].name : '';
+                const hizbName = pageData.hizbs && pageData.hizbs[0] ? pageData.hizbs[0].name : '';
+                pageTitle = `${firstSurah.name} - ${firstSurah.englishName} | ${juzName} | ${hizbName}`;
+            } else {
+                pageTitle = `الصفحة ${currentPage}`;
+            }
+
             document.getElementById('pageTitle').textContent = pageTitle;
             document.getElementById('pageNumber').textContent = `الصفحة ${currentPage}`;
             document.getElementById('pageInput').value = currentPage;
