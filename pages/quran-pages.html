@@ -5,23 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تصفح المصحف - صفحات القرآن الكريم</title>
     
-    <!-- Bootstrap RTL CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
     
-    <!-- Google Fonts - Arabic -->
     <link href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Amiri:wght@400;700&family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
     
-    <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     
-    <!-- Custom CSS -->
     <link href="../css/styles.css" rel="stylesheet">
 
-    <!-- إضافة ملف التأثيرات -->
     <link href="../css/effects.css" rel="stylesheet">
 </head>
 <body>
-    <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-islamic">
         <div class="container">
             <a class="navbar-brand" href="../index.html">
@@ -63,9 +57,7 @@
         </div>
     </nav>
 
-    <!-- Main Content -->
     <div class="container my-5">
-        <!-- Page Navigation -->
         <div class="page-nav">
             <div class="row align-items-center">
                 <div class="col-md-4">
@@ -95,28 +87,24 @@
             </div>
         </div>
 
-        <!-- Loading Indicator -->
-        <div id="loading" class="loading" style="display: none;">
+        <div id="loading" class="loading" style="display: block;">
             <div class="spinner"></div>
             <p>جاري تحميل الصفحة...</p>
         </div>
 
-        <!-- Quran Page Display -->
-        <div id="quranPage" class="quran-page">
+        <div id="quranPage" class="quran-page" style="display: none;">
             <div class="page-header">
-                <div class="page-number" id="pageNumber">الصفحة 1</div>
-                <h3 id="pageTitle">بسم الله الرحمن الرحيم</h3>
+                <div class="page-number" id="pageNumber"></div>
+                <h3 id="pageTitle"></h3>
             </div>
             <div id="pageContent" class="quran-text">
-                <!-- Page content will be loaded here -->
-            </div>
+                </div>
         </div>
 
-        <!-- Audio Player -->
         <div class="audio-player" id="audioPlayer" style="display: none;">
             <h5>استمع لتلاوة الصفحة</h5>
             <div class="audio-controls">
-                <button class="play-btn" id="playBtn" onclick="toggleAudio()">
+                <button class="play-btn" id="playBtn">
                     <i class="fas fa-play"></i>
                 </button>
                 <select class="form-select" id="reciterSelect" style="max-width: 200px;">
@@ -125,12 +113,11 @@
                     <option value="ar.saoodshuraym">سعود الشريم</option>
                     <option value="ar.mahermuaiqly">ماهر المعيقلي</option>
                 </select>
-                <audio id="audioElement" controls style="display: none;"></audio>
+                <audio id="audioElement" preload="auto"></audio>
             </div>
         </div>
     </div>
 
-    <!-- Footer -->
     <footer class="footer bg-islamic text-white py-4">
         <div class="container">
             <div class="row">
@@ -146,44 +133,56 @@
         </div>
     </footer>
 
-    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
-    <!-- إضافة ملف التأثيرات JavaScript -->
     <script src="../js/effects.js"></script>
 
-    <!-- Custom JavaScript -->
     <script>
         let currentPage = 1;
-        let currentAudio = null;
-        let isPlaying = false;
-        let currentPageAyahs = []; // لحفظ آيات الصفحة الحالية
 
         // Load page on startup
         document.addEventListener('DOMContentLoaded', function() {
-            loadPage();
+            const urlParams = new URLSearchParams(window.location.search);
+            const pageNum = parseInt(urlParams.get('page')) || 1;
+            loadPage(pageNum);
+            setupEventListeners();
         });
 
+        function setupEventListeners() {
+            document.getElementById('playBtn').addEventListener('click', toggleAudio);
+            document.getElementById('reciterSelect').addEventListener('change', updateAudioSource);
+            document.getElementById('pageInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    loadPage();
+                }
+            });
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowRight') {
+                    previousPage();
+                } else if (e.key === 'ArrowLeft') {
+                    nextPage();
+                }
+            });
+        }
+
         // Load Quran page
-        async function loadPage() {
-            const pageInput = document.getElementById('pageInput');
-            const pageNumber = parseInt(pageInput.value) || 1;
+        async function loadPage(pageNumber) {
+            const pageNum = pageNumber || parseInt(document.getElementById('pageInput').value);
             
-            if (pageNumber < 1 || pageNumber > 604) {
+            if (pageNum < 1 || pageNum > 604) {
                 alert('رقم الصفحة يجب أن يكون بين 1 و 604');
                 return;
             }
 
-            currentPage = pageNumber;
+            currentPage = pageNum;
             showLoading(true);
 
             try {
-                const response = await fetch(`http://api.alquran.cloud/v1/page/${pageNumber}/quran-uthmani`);
+                const response = await fetch(`https://api.alquran.cloud/v1/page/${pageNum}/quran-uthmani`);
                 const data = await response.json();
 
                 if (data.code === 200) {
                     displayPage(data.data);
-                    updatePageInfo(pageNumber);
                 } else {
                     throw new Error('فشل في تحميل الصفحة');
                 }
@@ -199,241 +198,93 @@
         // Display page content
         function displayPage(pageData) {
             const pageContent = document.getElementById('pageContent');
-            currentPageAyahs = pageData.ayahs; // حفظ آيات الصفحة
             let content = '';
-
-            pageData.ayahs.forEach((ayah, index) => {
-                content += `
-                    <div class="ayah-container mb-3" data-ayah="${ayah.number}" data-index="${index}" onclick="playAyahAudio(${ayah.number}, ${index})">
-                        <span class="ayah-text">${ayah.text}</span>
-                        <span class="ayah-number">﴿${ayah.numberInSurah}﴾</span>
-                    </div>
-                `;
-            });
-
-            content += `
-                <div class="text-center mt-4">
-                    <button class="btn btn-islamic btn-lg" onclick="playFullPage()">
-                        <i class="fas fa-play me-2"></i>
-                        قراءة الصفحة كاملة
-                    </button>
-                </div>
-            `;
-
-            pageContent.innerHTML = content;
             
-            // Show audio player
-            document.getElementById('audioPlayer').style.display = 'block';
+            pageData.ayahs.forEach((ayah, index) => {
+                content += `<div class="ayah-container mb-3" data-ayah-id="${ayah.number}">
+                                <span class="ayah-text">${ayah.text}</span>
+                                <span class="ayah-number">﴿${ayah.numberInSurah}﴾</span>
+                            </div>`;
+            });
+            
+            pageContent.innerHTML = content;
+            updatePageInfo(pageData);
+            updateAudioSource();
+        }
+
+        // Update page information and audio source
+        function updatePageInfo(pageData) {
+            const firstSurah = pageData.surahs.references[0];
+            const pageTitle = `${firstSurah.name} - ${firstSurah.englishName} | ${pageData.juzs[0].name} | ${pageData.hizbs[0].name}`;
+            document.getElementById('pageTitle').textContent = pageTitle;
+            document.getElementById('pageNumber').textContent = `الصفحة ${currentPage}`;
+            document.getElementById('pageInput').value = currentPage;
+            window.history.pushState({}, '', `quran-pages.html?page=${currentPage}`);
         }
 
         // Navigation functions
         function previousPage() {
             if (currentPage > 1) {
-                document.getElementById('pageInput').value = currentPage - 1;
-                loadPage();
+                loadPage(currentPage - 1);
             }
         }
 
         function nextPage() {
             if (currentPage < 604) {
-                document.getElementById('pageInput').value = currentPage + 1;
-                loadPage();
+                loadPage(currentPage + 1);
             }
         }
 
         function randomPage() {
             const randomPageNum = Math.floor(Math.random() * 604) + 1;
-            document.getElementById('pageInput').value = randomPageNum;
-            loadPage();
+            loadPage(randomPageNum);
         }
 
         // Audio functions
         function toggleAudio() {
-            const audioElement = document.getElementById('audioElement');
+            const audio = document.getElementById('audioElement');
             const playBtn = document.getElementById('playBtn');
-            const reciter = document.getElementById('reciterSelect').value;
-
-            if (!isPlaying) {
-                // Start playing
-                playPageAudio(reciter);
-                playBtn.innerHTML = '<i class="fas fa-pause"></i>';
-                isPlaying = true;
-            } else {
-                // Pause
-                if (currentAudio) {
-                    currentAudio.pause();
-                }
-                playBtn.innerHTML = '<i class="fas fa-play"></i>';
-                isPlaying = false;
-            }
-        }
-
-        async function playPageAudio(reciter) {
-            try {
-                // Get page data to find ayahs
-                const response = await fetch(`http://api.alquran.cloud/v1/page/${currentPage}/quran-uthmani`);
-                const data = await response.json();
-
-                if (data.code === 200 && data.data.ayahs.length > 0) {
-                    // Play first ayah of the page as example
-                    const firstAyah = data.data.ayahs[0];
-                    const audioUrl = `https://cdn.islamic.network/quran/audio/128/${reciter}/${firstAyah.number}.mp3`;
-                    
-                    if (currentAudio) {
-                        currentAudio.pause();
-                    }
-
-                    currentAudio = new Audio(audioUrl);
-                    currentAudio.play();
-
-                    currentAudio.onended = () => {
-                        document.getElementById('playBtn').innerHTML = '<i class="fas fa-play"></i>';
-                        isPlaying = false;
-                    };
-
-                    currentAudio.onerror = () => {
-                        alert('حدث خطأ في تشغيل الصوت');
-                        document.getElementById('playBtn').innerHTML = '<i class="fas fa-play"></i>';
-                        isPlaying = false;
-                    };
-                }
-            } catch (error) {
-                console.error('Error playing audio:', error);
-                alert('حدث خطأ في تشغيل الصوت');
-                document.getElementById('playBtn').innerHTML = '<i class="fas fa-play"></i>';
-                isPlaying = false;
-            }
-        }
-
-        // Play audio for a single ayah
-        async function playAyahAudio(ayahNumber, ayahIndex) {
-            const reciter = document.getElementById('reciterSelect').value;
-            const audioUrl = `https://cdn.islamic.network/quran/audio/128/${reciter}/${ayahNumber}.mp3`;
+            const icon = playBtn.querySelector('i');
             
-            // Stop any currently playing audio
-            if (currentAudio) {
-                currentAudio.pause();
-            }
-
-            try {
-                // Highlight the selected ayah
-                document.querySelectorAll('.ayah-container').forEach(container => {
-                    container.classList.remove('ayah-playing');
+            if (audio.paused) {
+                audio.play().catch(e => {
+                    console.error('Audio playback error:', e);
+                    alert('تعذر تشغيل الصوت. يرجى المحاولة مرة أخرى.');
                 });
-                document.querySelector(`[data-index="${ayahIndex}"]`).classList.add('ayah-playing');
-
-                currentAudio = new Audio(audioUrl);
-                await currentAudio.play();
-
-                currentAudio.onended = () => {
-                    document.querySelector(`[data-index="${ayahIndex}"]`).classList.remove('ayah-playing');
-                };
-
-                currentAudio.onerror = () => {
-                    alert('حدث خطأ في تشغيل صوت الآية');
-                    document.querySelector(`[data-index="${ayahIndex}"]`).classList.remove('ayah-playing');
-                };
-
-            } catch (error) {
-                console.error('Error playing ayah audio:', error);
-                alert('حدث خطأ في تشغيل صوت الآية');
+                icon.className = 'fas fa-pause';
+            } else {
+                audio.pause();
+                icon.className = 'fas fa-play';
             }
         }
 
-        // Play audio for the entire page
-        async function playFullPage() {
-            if (currentPageAyahs.length === 0) {
-                alert('لا توجد آيات للتشغيل');
-                return;
-            }
-
+        function updateAudioSource() {
+            const audio = document.getElementById('audioElement');
             const reciter = document.getElementById('reciterSelect').value;
-            let currentAyahIndex = 0;
-
-            // Stop any currently playing audio
-            if (currentAudio) {
-                currentAudio.pause();
-            }
-
-            async function playNextAyah() {
-                if (currentAyahIndex >= currentPageAyahs.length) {
-                    // Page ended
-                    document.querySelectorAll('.ayah-container').forEach(container => {
-                        container.classList.remove('ayah-playing');
-                    });
-                    return;
-                }
-
-                const ayah = currentPageAyahs[currentAyahIndex];
-                const audioUrl = `https://cdn.islamic.network/quran/audio/128/${reciter}/${ayah.number}.mp3`;
-
-                try {
-                    // Highlight the current ayah
-                    document.querySelectorAll('.ayah-container').forEach(container => {
-                        container.classList.remove('ayah-playing');
-                    });
-                    document.querySelector(`[data-index="${currentAyahIndex}"]`).classList.add('ayah-playing');
-
-                    currentAudio = new Audio(audioUrl);
-                    await currentAudio.play();
-
-                    currentAudio.onended = () => {
-                        currentAyahIndex++;
-                        setTimeout(playNextAyah, 500); // Short pause between ayahs
-                    };
-
-                    currentAudio.onerror = () => {
-                        console.error(`Error playing ayah ${ayah.number}`);
-                        currentAyahIndex++;
-                        setTimeout(playNextAyah, 500);
-                    };
-
-                } catch (error) {
-                    console.error('Error playing ayah:', error);
-                    currentAyahIndex++;
-                    setTimeout(playNextAyah, 500);
-                }
-            }
-
-            playNextAyah();
-        }
-
-        // Update page information
-        function updatePageInfo(pageNumber) {
-            document.getElementById('pageNumber').textContent = `الصفحة ${pageNumber}`;
-            document.getElementById('pageInput').value = pageNumber;
+            const firstAyah = document.querySelector('.ayah-container');
             
-            // Update page title based on content
-            const firstAyah = document.querySelector('.ayah-text');
             if (firstAyah) {
-                const text = firstAyah.textContent.substring(0, 50) + '...';
-                document.getElementById('pageTitle').textContent = text;
+                const ayahId = firstAyah.dataset.ayahId;
+                const audioUrl = `https://cdn.islamic.network/quran/audio/128/${reciter}/${ayahId}.mp3`;
+                audio.src = audioUrl;
+                document.getElementById('audioPlayer').style.display = 'block';
+            } else {
+                document.getElementById('audioPlayer').style.display = 'none';
             }
+
+            audio.addEventListener('ended', () => {
+                document.getElementById('playBtn').querySelector('i').className = 'fas fa-play';
+            });
         }
 
         // Show/hide loading
         function showLoading(show) {
             document.getElementById('loading').style.display = show ? 'block' : 'none';
             document.getElementById('quranPage').style.display = show ? 'none' : 'block';
+            if (show) {
+                document.getElementById('audioPlayer').style.display = 'none';
+            }
         }
-
-        // Keyboard navigation
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'ArrowRight') {
-                previousPage();
-            } else if (e.key === 'ArrowLeft') {
-                nextPage();
-            } else if (e.key === 'Enter') {
-                loadPage();
-            }
-        });
-
-        // Handle page input enter key
-        document.getElementById('pageInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                loadPage();
-            }
-        });
     </script>
 </body>
 </html>
