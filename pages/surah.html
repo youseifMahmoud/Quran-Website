@@ -91,7 +91,7 @@
                         <option value="ar.husary">محمود خليل الحصري</option>
                     </select>
                 </div>
-                <audio id="audioElement" style="display: none;"></audio>
+                <audio id="audioElement" controls style="width: 100%; margin-top: 1rem;"></audio>
             </div>
 
             <div class="d-flex justify-content-between mt-4">
@@ -208,13 +208,13 @@
             ayahsList.innerHTML = '';
             
             surahData.ayahs.forEach((ayah, index) => {
-                const ayahContent = document.createElement('span');
-                ayahContent.className = 'ayah-container';
+                const ayahContent = document.createElement('div');
+                ayahContent.className = 'ayah-container my-3';
                 ayahContent.dataset.ayah = ayah.number;
                 ayahContent.dataset.index = index;
                 ayahContent.onclick = () => playAyahAudio(index);
                 
-                const ayahText = document.createElement('span');
+                const ayahText = document.createElement('div');
                 ayahText.className = 'ayah-text';
                 
                 let text = ayah.text;
