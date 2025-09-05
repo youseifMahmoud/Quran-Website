@@ -65,6 +65,24 @@
                     <div id="surahInfo" class="mb-3"></div>
                 </div>
 
+                <div class="audio-player mt-4">
+                    <h5>استمع لتلاوة السورة</h5>
+                    <div class="audio-controls d-flex flex-wrap justify-content-center align-items-center gap-2">
+                        <select class="form-select" id="reciterSelect" style="max-width: 200px;">
+                            <option value="ar.alafasy">مشاري العفاسي</option>
+                            <option value="ar.abdurrahmaansudais">عبد الرحمن السديس</option>
+                            <option value="ar.saoodshuraym">سعود الشريم</option>
+                            <option value="ar.mahermuaiqly">ماهر المعيقلي</option>
+                            <option value="ar.abdulbasit">عبد الباسط عبد الصمد</option>
+                            <option value="ar.minshawi">محمد صديق المنشاوي</option>
+                            <option value="ar.husary">محمود خليل الحصري</option>
+                        </select>
+                        <button class="play-btn" id="playBtn">
+                            <i class="fas fa-play"></i>
+                        </button>
+                    </div>
+                </div>
+                
                 <div id="bismillah" class="text-center mb-4" style="display: none;">
                     <div class="quran-text" style="font-size: 2rem; color: var(--islamic-primary);">
                         بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
@@ -73,25 +91,6 @@
 
                 <div id="ayahsList" class="quran-text">
                     </div>
-            </div>
-            
-            <div class="audio-player mt-4">
-                <h5>استمع لتلاوة السورة</h5>
-                <div class="audio-controls">
-                    <button class="play-btn" id="playBtn">
-                        <i class="fas fa-play"></i>
-                    </button>
-                    <select class="form-select" id="reciterSelect" style="max-width: 200px;">
-                        <option value="ar.alafasy">مشاري العفاسي</option>
-                        <option value="ar.abdurrahmaansudais">عبد الرحمن السديس</option>
-                        <option value="ar.saoodshuraym">سعود الشريم</option>
-                        <option value="ar.mahermuaiqly">ماهر المعيقلي</option>
-                        <option value="ar.abdulbasit">عبد الباسط عبد الصمد</option>
-                        <option value="ar.minshawi">محمد صديق المنشاوي</option>
-                        <option value="ar.husary">محمود خليل الحصري</option>
-                    </select>
-                </div>
-                <audio id="audioElement" controls style="width: 100%; margin-top: 1rem;"></audio>
             </div>
 
             <div class="d-flex justify-content-between mt-4">
@@ -132,6 +131,7 @@
         let currentAudio = null;
         let isPlaying = false;
         let audioIndex = 0;
+        let audioQueue = [];
 
         document.addEventListener('DOMContentLoaded', () => {
             const urlParams = new URLSearchParams(window.location.search);
@@ -142,7 +142,10 @@
 
         function setupEventListeners() {
             document.getElementById('playBtn').addEventListener('click', toggleSurahAudio);
-            document.getElementById('reciterSelect').addEventListener('change', updateSurahAudioSource);
+            document.getElementById('reciterSelect').addEventListener('change', () => {
+                stopAudio();
+                updatePlayButton(false);
+            });
             document.getElementById('prevSurah').addEventListener('click', () => navigateSurah(-1));
             document.getElementById('nextSurah').addEventListener('click', () => navigateSurah(1));
             document.addEventListener('keydown', handleKeyboardNavigation);
@@ -152,6 +155,7 @@
             showLoading(true);
             currentSurah = surahNumber;
             stopAudio();
+            updatePlayButton(false);
 
             const apiUrl = `https://api.alquran.cloud/v1/surah/${surahNumber}/quran-uthmani`;
 
@@ -212,7 +216,7 @@
                 ayahContent.className = 'ayah-container my-3';
                 ayahContent.dataset.ayah = ayah.number;
                 ayahContent.dataset.index = index;
-                ayahContent.onclick = () => playAyahAudio(index);
+                ayahContent.onclick = () => playFromAyah(index);
                 
                 const ayahText = document.createElement('div');
                 ayahText.className = 'ayah-text';
@@ -239,40 +243,27 @@
             prevBtn.disabled = surahNumber <= 1;
             nextBtn.disabled = surahNumber >= 114;
         }
-        
+
         // --- Audio functions ---
 
         function toggleSurahAudio() {
-            if (!isPlaying) {
-                playFullSurah();
-                document.getElementById('playBtn').innerHTML = '<i class="fas fa-pause"></i>';
-                isPlaying = true;
-            } else {
+            if (isPlaying) {
                 stopAudio();
-                document.getElementById('playBtn').innerHTML = '<i class="fas fa-play"></i>';
-                isPlaying = false;
+                updatePlayButton(false);
+            } else {
+                if (currentAudio) {
+                    currentAudio.play();
+                    updatePlayButton(true);
+                    return;
+                }
+                playFullSurah();
             }
         }
 
-        async function playAyahAudio(index) {
+        async function playFromAyah(index) {
             stopAudio();
-            const ayah = currentPageAyahs[index];
-            const reciter = document.getElementById('reciterSelect').value;
-            const audioUrl = `https://cdn.islamic.network/quran/audio/128/${reciter}/${ayah.number}.mp3`;
-            
-            highlightAyah(index);
-
-            currentAudio = new Audio(audioUrl);
-            await currentAudio.play();
-
-            currentAudio.onended = () => {
-                removeHighlight(index);
-            };
-
-            currentAudio.onerror = () => {
-                console.error(`Error playing ayah audio for ayah number ${ayah.number}`);
-                removeHighlight(index);
-            };
+            audioIndex = index;
+            playFullSurah();
         }
 
         async function playFullSurah() {
@@ -281,14 +272,15 @@
                 return;
             }
 
-            audioIndex = 0;
+            updatePlayButton(true);
+            isPlaying = true;
+
             const reciter = document.getElementById('reciterSelect').value;
 
             async function playNextAyah() {
-                if (audioIndex >= currentPageAyahs.length) {
+                if (audioIndex >= currentPageAyahs.length || !isPlaying) {
                     stopAudio();
-                    document.getElementById('playBtn').innerHTML = '<i class="fas fa-play"></i>';
-                    isPlaying = false;
+                    updatePlayButton(false);
                     return;
                 }
 
@@ -328,11 +320,18 @@
             isPlaying = false;
         }
 
-        function updateSurahAudioSource() {
-            if (isPlaying) {
-                stopAudio();
-                playFullSurah();
+        function updatePlayButton(playing) {
+            const playBtn = document.getElementById('playBtn');
+            if (playing) {
+                playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            } else {
+                playBtn.innerHTML = '<i class="fas fa-play"></i>';
             }
+        }
+
+        function updateSurahAudioSource() {
+            stopAudio();
+            updatePlayButton(false);
         }
 
         function highlightAyah(index) {
